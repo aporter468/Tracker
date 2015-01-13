@@ -15,6 +15,8 @@ import android.widget.ToggleButton;
 public class CycleValueDialog extends DialogFragment
 {
     private boolean isMetric;
+    private int rowIndex;
+    private int cycleIndex;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -30,7 +32,7 @@ public class CycleValueDialog extends DialogFragment
                             {
 
                                 EditText nameText = (EditText)rootView.findViewById(R.id.valueEditText);
-                                ((RoutineOpen)getActivity()).addItem(nameText.getText().toString());
+                                ((RoutineOpen)getActivity()).addCycleValue(nameText.getText().toString(),rowIndex,cycleIndex);
 
                             }
                         }
@@ -48,6 +50,8 @@ public class CycleValueDialog extends DialogFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        rowIndex = getArguments().getInt("parentrowindex");
+        cycleIndex = getArguments().getInt("parentcycleindex");
 
     }
 

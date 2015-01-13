@@ -2,6 +2,7 @@ package com.aporter.tracker;
 
 import android.app.DialogFragment;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -24,17 +25,21 @@ public class ItemRow extends TableRow implements Serializable
     ImageButton saveButton;
     Item item;
     Context context;
-    public ItemRow(Context context, Item item, RoutineOpen parentIn)
+    RoutineOpen parentRoutine;
+    int rowIndex;
+    public ItemRow(Context context, Item item, RoutineOpen parentIn, int rowIndex)
     {
         super(context);
         this.context = context;
         this.item = item;
+        this.rowIndex = rowIndex;
         setBackgroundColor(Color.RED);
         TextView textView = new TextView(context);
         textView.setText(item.getName());
         textView.setTextSize(22);
         addView(textView);
         final RoutineOpen parentActivity = parentIn;
+        parentRoutine = parentIn;
         final ItemRow thisRow = this;
         if(item.getFieldCount()<3)
         {
@@ -111,15 +116,16 @@ public class ItemRow extends TableRow implements Serializable
             removeView(plusButton);
         }
     }
-    private void buildCycleField(String name,CycleField cf, int i)
+    private void buildCycleField(String name,CycleField cf, int cycleIndex)
     {
         TextView fieldTView = new TextView(context);
         fieldTView.setText(name);
-        fieldTView.setTag("CYCLE"+i);
+        fieldTView.setTag("CYCLE"+cycleIndex);
         addView(fieldTView);
 
        final ArrayList<String> spinnerArray = cf.getValues();
         final Spinner spinner = new Spinner(context);
+        final int cycleIndex2 = cycleIndex;
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,11 +133,10 @@ public class ItemRow extends TableRow implements Serializable
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 if (position == 0) {
-                    Log.e("mylog", "add item to field");
-                    spinnerArray.add("i");
-                    spinner.setSelection(1);
+                    spinner.setSelection(spinnerArray.size()-1);
+                    getNewCycleValue(cycleIndex2);
+
                 } else {
-                    Log.e("mylog", "item at index " + position + " selected");
                 }
             }
             @Override
@@ -152,6 +157,15 @@ public class ItemRow extends TableRow implements Serializable
         fieldEText.setTag("NUM" + i);
         addView(fieldEText);
     }
+    private void getNewCycleValue(int cycleIndex)
+    {
 
+        DialogFragment cycleDialog = new CycleValueDialog();
+        Bundle args = new Bundle();
+        args.putInt("parentrowindex", rowIndex);
+        args.putInt("parentcycleindex",cycleIndex);
+        cycleDialog.setArguments(args);
+        cycleDialog.show(parentRoutine.getFragmentManager(), "cyclevalue");
+    }
 
 }

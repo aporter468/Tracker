@@ -79,7 +79,7 @@ public class RoutineOpen extends Activity implements OnClickListener {
     public void addItem(String name)
     {
         Item newItem = new Item(name);
-        ItemRow newRow = new ItemRow(this, newItem,this);
+        ItemRow newRow = new ItemRow(this, newItem,this, openRoutine.getNumberItems());
         newRow.setOnClickListener(this);
         routineOpenContainer.addView(newRow);
         openRoutine.addItem(newItem);
@@ -88,7 +88,7 @@ public class RoutineOpen extends Activity implements OnClickListener {
     private void populateRows()
     {
         for (int i =0; i<openRoutine.getNumberItems(); i++) {
-            ItemRow newRow = new ItemRow(this, openRoutine.getItem(i), this);
+            ItemRow newRow = new ItemRow(this, openRoutine.getItem(i), this,i);
             newRow.addExistingFields();
             newRow.setOnClickListener(this);
             routineOpenContainer.addView(newRow);
@@ -169,6 +169,14 @@ public class RoutineOpen extends Activity implements OnClickListener {
         }
 
 
+    }
+
+    /**
+     * Here because needs to be in activity to take callback from dialog
+     */
+   public void addCycleValue(String value,int rowIndex,int cycleIndex)
+    {
+        openRoutine.getItem(rowIndex).getCycleFields().get(cycleIndex).addValue(value);
     }
 
     @Override
