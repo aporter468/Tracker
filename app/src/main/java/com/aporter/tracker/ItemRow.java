@@ -3,6 +3,7 @@ package com.aporter.tracker;
 import android.app.DialogFragment;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TableRow;
 
@@ -11,6 +12,8 @@ import android.content.Context;
 import android.widget.TextView;
 import android.widget.EditText;
 import java.util.ArrayList;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.util.Log;
 /**
  * Created by Alex on 12/26/14.
@@ -59,13 +62,10 @@ public class ItemRow extends TableRow implements Serializable
     private void saveItemValues()
     {
         ArrayList<NumField> numFields = item.getNumFields();
-        Log.e("mylog","save item values. for "+numFields.size()+" numFields");
         for(int i =0; i<numFields.size(); i++)
         {
             EditText etext = (EditText)findViewWithTag("NUM"+i);
-            Log.e("mylog","finding num with tag: NUM"+i);
             if(etext != null) {
-                Log.e("mylog", "text: " + i + " " + etext.getText().toString());
                 numFields.get(i).setValue(etext.getText().toString());
             }
         }
@@ -88,7 +88,7 @@ public class ItemRow extends TableRow implements Serializable
         ArrayList<CycleField> cycleFields = item.getCycleFields();
         for(int i =0; i<cycleFields.size(); i++)
         {
-            buildCycleField(cycleFields.get(i).getName());
+            buildCycleField(cycleFields.get(i).getName(),cycleFields.get(i),i);
         }
 
 
@@ -98,30 +98,50 @@ public class ItemRow extends TableRow implements Serializable
     {
         if(numField)
         {
-            EditText eText = buildNumField(name, unit, "",item.getNumFields().size());
+             buildNumField(name, unit, "",item.getNumFields().size());
             item.addNumField(name,unit);
         }
         else
         {
-            TextView tview =  buildCycleField(name);
-            item.addCycleField(name);
-
-            //TODO: cycle spinner
+            CycleField cf = item.addCycleField(name);
+            buildCycleField(name, cf, item.getCycleFields().size() - 1);
         }
         if(item.getFieldCount()>2)
         {
             removeView(plusButton);
         }
     }
-    private TextView buildCycleField(String name)
+    private void buildCycleField(String name,CycleField cf, int i)
     {
         TextView fieldTView = new TextView(context);
         fieldTView.setText(name);
-        fieldTView.setTag("CYCLE"+item.getCycleFields().size());
+        fieldTView.setTag("CYCLE"+i);
         addView(fieldTView);
-        return fieldTView;
+
+       final ArrayList<String> spinnerArray = cf.getValues();
+        final Spinner spinner = new Spinner(context);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position == 0) {
+                    Log.e("mylog", "add item to field");
+                    spinnerArray.add("i");
+                    spinner.setSelection(1);
+                } else {
+                    Log.e("mylog", "item at index " + position + " selected");
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        addView(spinner);
+
     }
-    private EditText buildNumField(String name, String unit,String value, int i)
+    private void buildNumField(String name, String unit,String value, int i)
     {
         TextView fieldTView = new TextView(context);
         fieldTView.setText(name);
@@ -129,10 +149,8 @@ public class ItemRow extends TableRow implements Serializable
         EditText fieldEText = new EditText(context);
         fieldEText.setHint(unit);
         fieldEText.setText(value);
-        fieldEText.setTag("NUM"+i);
-        Log.e("mylog","Num field build with tag: NUM"+item.getNumFields().size());
+        fieldEText.setTag("NUM" + i);
         addView(fieldEText);
-        return fieldEText;
     }
 
 

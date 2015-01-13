@@ -35,11 +35,12 @@ public class Item implements Serializable
         Log.e("mylog","field added to: "+this.name);
         fieldCount++;
     }
-    public void addCycleField(String name )
+    public CycleField addCycleField(String name )
     {
         CycleField newField = new CycleField(name);
         cycleFields.add(newField);
         fieldCount++;
+        return newField;
 
     }
     public int getFieldCount(){return fieldCount;}

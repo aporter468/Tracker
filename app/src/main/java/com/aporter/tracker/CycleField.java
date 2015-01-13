@@ -15,17 +15,25 @@ public class CycleField implements Serializable{
     {
         this.name = name;
         values = new ArrayList<String>();
+        values.add("+");
         useCounts = new ArrayList<Integer>();
     }
     public void setValues(ArrayList<String> values)
     {
         this.values = values;
     }
-
+    public void addValue(String val)
+    {
+        values.add(val);
+    }
     public String getCurrent()
     {
           String c = values.get(currentValue);
         return c;
+    }
+    public ArrayList<String> getValues()
+    {
+        return values;
     }
     public void cycleNext()
     {
