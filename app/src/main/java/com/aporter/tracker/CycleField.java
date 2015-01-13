@@ -17,6 +17,7 @@ public class CycleField implements Serializable{
         values = new ArrayList<String>();
         values.add("+");
         useCounts = new ArrayList<Integer>();
+        useCounts.add(0);
     }
     public void setValues(ArrayList<String> values)
     {
@@ -24,7 +25,9 @@ public class CycleField implements Serializable{
     }
     public void addValue(String val)
     {
+
         values.add(val);
+        useCounts.add(0);
     }
     public int getCurrent()
     {
@@ -37,15 +40,19 @@ public class CycleField implements Serializable{
     public void cycleNext()
     {
         currentValue++;
+        useCounts.set(currentValue,useCounts.get(currentValue)+1);
         if(currentValue==values.size())
             currentValue = 0;
     }
     public void setSelection(int i)
     {
-        if(i <values.size())
-        currentValue = i;
-        else
-            currentValue = values.size()-1;
+        if(i <values.size()) {
+            currentValue = i;
+        }
+        else {
+            currentValue = values.size() - 1;
+        }
+        useCounts.set(i,useCounts.get(i)+1);
     }
     public String getName()
     {

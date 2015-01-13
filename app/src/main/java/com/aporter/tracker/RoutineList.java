@@ -138,17 +138,10 @@ public class RoutineList extends Activity implements OnClickListener {
 
 
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            // e.printStackTrace();
         } catch (IOException e) {
 
-            // TODO Auto-generated catch block
-            // /e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            Log.e("mylog", "class not found");
 
-            // e.printStackTrace();
         }
         if(routinesIn.size()>0) {
             routineList = routinesIn;

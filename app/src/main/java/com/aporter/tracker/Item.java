@@ -3,7 +3,7 @@ package com.aporter.tracker;
 /**
  * Created by Alex on 12/26/14.
  */
-//TODO: entry history
+//TODO: entry history by date (different than field's history changing when new value)
 import java.io.Serializable;
 import java.util.ArrayList;
 import android.util.Log;
