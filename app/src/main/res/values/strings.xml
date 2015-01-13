@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tracker</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_routines_list">RoutinesList</string>
+    <string name="title_activity_curent_routine">CurentRoutine</string>
+    <string name="title_activity_routine_list">RoutineList</string>
+    <string name="title_activity_routine_open">RoutineOpen</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_new_field_dialog">NewFieldDialog</string>
+
+</resources>
