@@ -126,8 +126,10 @@ public class ItemRow extends TableRow implements Serializable
        final ArrayList<String> spinnerArray = cf.getValues();
         final Spinner spinner = new Spinner(context);
         final int cycleIndex2 = cycleIndex;
+        final CycleField cycleField = cf;
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
         spinner.setAdapter(spinnerArrayAdapter);
+        spinner.setSelection(cf.getCurrent());
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -137,6 +139,7 @@ public class ItemRow extends TableRow implements Serializable
                     getNewCycleValue(cycleIndex2);
 
                 } else {
+                    cycleField.setSelection(position);
                 }
             }
             @Override
