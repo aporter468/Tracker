@@ -59,9 +59,11 @@ public class ItemRow extends TableRow implements Serializable
     private void saveItemValues()
     {
         ArrayList<NumField> numFields = item.getNumFields();
+        Log.e("mylog","save item values. for "+numFields.size()+" numFields");
         for(int i =0; i<numFields.size(); i++)
         {
             EditText etext = (EditText)findViewWithTag("NUM"+i);
+            Log.e("mylog","finding num with tag: NUM"+i);
             if(etext != null) {
                 Log.e("mylog", "text: " + i + " " + etext.getText().toString());
                 numFields.get(i).setValue(etext.getText().toString());
@@ -80,7 +82,7 @@ public class ItemRow extends TableRow implements Serializable
         ArrayList<NumField> numFields = item.getNumFields();
         for(int i =0; i<numFields.size(); i++)
         {
-            buildNumField(numFields.get(i).getName(),numFields.get(i).getUnit(),numFields.get(i).getValue());
+            buildNumField(numFields.get(i).getName(),numFields.get(i).getUnit(),numFields.get(i).getValue(),i);
         }
 
         ArrayList<CycleField> cycleFields = item.getCycleFields();
@@ -96,7 +98,7 @@ public class ItemRow extends TableRow implements Serializable
     {
         if(numField)
         {
-            EditText eText = buildNumField(name, unit, "");
+            EditText eText = buildNumField(name, unit, "",item.getNumFields().size());
             item.addNumField(name,unit);
         }
         else
@@ -119,7 +121,7 @@ public class ItemRow extends TableRow implements Serializable
         addView(fieldTView);
         return fieldTView;
     }
-    private EditText buildNumField(String name, String unit,String value)
+    private EditText buildNumField(String name, String unit,String value, int i)
     {
         TextView fieldTView = new TextView(context);
         fieldTView.setText(name);
@@ -127,8 +129,8 @@ public class ItemRow extends TableRow implements Serializable
         EditText fieldEText = new EditText(context);
         fieldEText.setHint(unit);
         fieldEText.setText(value);
-        fieldEText.setTag("NUM"+item.getNumFields().size());
-
+        fieldEText.setTag("NUM"+i);
+        Log.e("mylog","Num field build with tag: NUM"+item.getNumFields().size());
         addView(fieldEText);
         return fieldEText;
     }
