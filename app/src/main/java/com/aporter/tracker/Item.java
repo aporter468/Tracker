@@ -32,7 +32,6 @@ public class Item implements Serializable
     {
         NumField newField  = new NumField(name, unit);
         numFields.add(newField);
-        Log.e("mylog","field added to: "+this.name);
         fieldCount++;
     }
     public CycleField addCycleField(String name )

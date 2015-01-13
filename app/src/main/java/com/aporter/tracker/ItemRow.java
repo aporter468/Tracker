@@ -73,6 +73,8 @@ public class ItemRow extends TableRow implements Serializable
             if(etext != null) {
                 numFields.get(i).setValue(etext.getText().toString());
             }
+            Log.e("mylog","history for "+i+" "+numFields.get(i).getHistory().toArray());
+
         }
 
         ArrayList<CycleField> cycleFields = item.getCycleFields();

@@ -9,10 +9,12 @@ public class NumField implements Serializable{
     private String name;
     private String unit;
     private String value;
+    private ArrayList<String> history;
     public NumField(String name, String unit)
     {
         this.name = name;
         this.unit = unit;
+        history = new ArrayList<String>();
     }
 
     public String getName()
@@ -28,9 +30,15 @@ public class NumField implements Serializable{
     {
         return value;
     }
-    public void setValue(String value)
+    public void setValue(String valueIn)
     {
-        this.value = value;
+        if(value!=null)
+            history.add(value);
+        value = valueIn;
+    }
+    public ArrayList<String> getHistory()
+    {
+        return history;
     }
 }
 
